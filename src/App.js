@@ -2,38 +2,15 @@ import React, {Component}  from 'react';
 import "./App.css";
 import Header from './components/Header';
 import Player from './components/Player';
+import Footer from './components/Footer';
 
 class App extends Component {
 
   state = {
-    players: [
-      {
-        name: "Guil",
-        id: 1,
-        rScores:[0,0,0,0,0,0,0],
-        
-      },
-      {
-        name: "Treasure",
-        id: 2, 
-        rScores:[0,0,0,0,0,0,0],
-        
-      },
-      {
-        name: "Ashley",
-        id: 3, 
-        rScores:[0,0,0,0,0,0,0],
-        
-      },
-      {
-        name: "James",
-        id: 4, 
-        rScores:[0,0,0,0,0,0,0],
-        
-      }
-    ],
+    players: [],
     gameStage:'',
   }
+   prevPlayerId = 0;
   handleScoreChange= (iPerson,iScore, e) =>{
     const scoresCopy= this.state.players[iPerson].rScores 
     scoresCopy[iScore]=parseInt(e.target.value)
@@ -49,6 +26,23 @@ class App extends Component {
     });
   }
 
+  handleAddPlayer = (name) => {
+    this.setState(prevState =>{
+      return {
+        players: [
+        ...prevState.players,
+          {
+            name: name,
+            id: this.prevPlayerId += 1,
+            rScores:[0,0,0,0,0,0,0],
+
+          }
+        ]
+      }
+      
+    });
+  }
+
   scoreSum = (scores)=> {
     //just sum the array
     const reducer = (accumulator, curr) => accumulator + curr;
@@ -57,10 +51,9 @@ class App extends Component {
   getHighScore = () => {
     let totals=[]
     for (let i=0;i<this.state.players.length;i++){
-      totals=[...totals, ...this.state.players[i].rScores];
+     totals=[...totals, this.scoreSum(this.state.players[i].rScores)]
     }
-    console.log(totals)
-    const highScore = Math.max(...totals);
+    const highScore = Math.min(...totals);
     if (highScore) {
       return highScore;
     } 
@@ -69,6 +62,7 @@ class App extends Component {
 
   render () {
     const highScore = this.getHighScore();
+    console.log(highScore)
     return (
       <div className="scoreboard">
         <Header
@@ -88,18 +82,8 @@ class App extends Component {
             removePlayer={this.handleRemovePlayer}
           />
         )}
-  
-        {/* PLAYERS===================== */}
-         {/* ->/PLAYERS===================== */}
-        {/* FOOTER===================== */}
-        <form>
-          <input 
-          type="text"
-          //pass ref to the ref attribute 
-          placeholder="Enter a player's name" 
-          />
-          <input type="submit" value="Add player" />
-        </form>
+        <Footer addPlayer={this.handleAddPlayer}/>
+        
         
       </div>
     );
