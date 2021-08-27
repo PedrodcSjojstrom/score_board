@@ -9,7 +9,7 @@ class Input extends Component {
     const {score,iScore,iPerson,handleScore} = this.props;
     return (
       <input
-        type="text"
+        type="number"
         className="round-score"
         value={score}
         onChange={(e)=>handleScore(iPerson, iScore, e)}

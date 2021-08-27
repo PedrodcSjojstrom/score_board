@@ -4,18 +4,8 @@ import StopWatch from "./StopWatch";
 
 class Header extends Component {
   static propTypes = {};
-  calculateTotalPoints= (players) => {
-    let points =0;
-    for (let i=0;i<players.length;i++){
-      const arr=players[i].rScores;
-      const reducer = (accumulator, curr) => accumulator + curr;
-      points += arr.reduce(reducer)
-    }
-    return points
-
-  }
   render() {
-    const {totalPlayers, players}= this.props;
+    const {totalPlayers, totalPoints}= this.props;
     return (
       <header>
         {/* <!-- Stats --> */}
@@ -27,7 +17,7 @@ class Header extends Component {
             </tr>
             <tr>
               <td>Points:</td>
-              <td>{this.calculateTotalPoints(players)}</td>
+              <td>{totalPoints}</td>
             </tr>
             {/* <tr>
               <td>Round:</td>
