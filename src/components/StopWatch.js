@@ -43,8 +43,8 @@ class StopWatch extends Component {
       const now = Date.now();
       const secCounter = Math.floor(this.state.elapsedTime / 1000);
       const seconds = this.transform(secCounter % 60);
-      const minutes = this.transform(parseInt(secCounter / 60));
-      const hours = this.transform(parseInt(secCounter / 60 / 60));
+      const hours = this.transform(parseInt((secCounter/ 60)/60));
+      const minutes = this.transform(parseInt(secCounter / 60)-hours*60);
 
       this.setState((prevState) => ({
         previousTime: now,
